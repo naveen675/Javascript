@@ -14,7 +14,7 @@ const quiz = [
     options : ['1. By hitting netflix server through internet','2. A cache box will be maintained in internet by netflix which will be having most watched videos'],
     answer : 2,
     wrong : "!Opps. Wrong Answer. Correct Answer Is 2 ",
-    reason : "Because when you open the video, Anyhow request to netflix will be sent through internet so its \n"
+    reason : "Because when you open the video, Anyhow request to netflix will be sent through internet so its better to have cache for quick response \n"
   },
 
   {
@@ -27,6 +27,10 @@ const quiz = [
 ]
 
 
+function validateOption(userChoice,totalAvailableOptions){
+    return ((parseInt(userChoice) >= 1 && parseInt(userChoice) <= totalAvailableOptions));
+}
+
 function validateAnswer(choice,correctAnswer){
 
   return (choice === correctAnswer);
@@ -35,12 +39,18 @@ function validateAnswer(choice,correctAnswer){
 
 function play(q){
   
-  let choosenOption;
+  let choice;
   
   quest.question("Please click 'ENTER' to display question");
-  choosenOPtion = parseInt(quest.question('\n' + q.question + '\n' + q.options.join('\n')+'\n'));
+  choice = parseInt(quest.question('\n' + q.question + '\n' + q.options.join('\n')+'\n'));
 
-  if(validateAnswer(choosenOPtion,q.answer)){
+  
+  while(!validateOption(choice,q.options.length)){
+    console.log("Choose Valid Option\n");
+    choosenOption = parseInt(quest.question());
+  }
+  
+  if(validateAnswer(choice,q.answer)){
 
       console.log("Hurrah! your answer is correct ");
       score = score+10;
@@ -73,7 +83,7 @@ function welcome(){
 
   console.log("Hi Welcome to Software Design Quizz ");
   console.log("Please see the instructions below ");
-  console.log("There are 3 multiple choice questions \n each questions will be having 2 to 4 options \n you should be selecting either 1 or 2 or 3 or 4 ");
+  console.log("There are 3 multiple choice questions \n each questions will be having 2 to 4 options ");
   console.log("\nPlease click ENTER if you are ready");
   quest.question();
 }
